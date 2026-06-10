@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Pro Bot Admin</title>
+    <style> body { font-family: 'Kantumruy Pro', sans-serif; } </style>
+</head>
+<body class="bg-slate-950 text-white min-h-screen p-4 md:p-8 selection:bg-blue-500 selection:text-white">
+    
+    <div id="loginPage" class="flex flex-col items-center justify-center min-h-[80vh]">
+        <div class="bg-slate-900 p-8 rounded-2xl shadow-2xl border border-slate-800 w-full max-w-md relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500"></div>
+            <h1 class="text-3xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">ចូលប្រព័ន្ធគ្រប់គ្រង</h1>
+            <input type="text" id="user" placeholder="ឈ្មោះគណនី (Username)" class="w-full bg-slate-950 p-4 mb-4 rounded-xl border border-slate-800 outline-none focus:border-blue-500 transition">
+            <input type="password" id="pass" placeholder="លេខសម្ងាត់ (Password)" class="w-full bg-slate-950 p-4 mb-8 rounded-xl border border-slate-800 outline-none focus:border-blue-500 transition">
+            <button onclick="login()" class="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 py-4 rounded-xl font-bold text-lg transition shadow-lg shadow-blue-500/20">ចូលប្រើប្រាស់</button>
+        </div>
+    </div>
+
+    <div id="dashPage" class="hidden max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-lg">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl shadow-lg">🛡️</div>
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-bold">Premium Guardian</h1>
+                    <p class="text-slate-400 text-sm">ផ្ទាំងគ្រប់គ្រងប្រព័ន្ធសុវត្ថិភាពទូរគមនាគមន៍</p>
+                </div>
+            </div>
+            <button onclick="logout()" class="mt-4 md:mt-0 px-6 py-2 bg-slate-800 hover:bg-slate-700 text-red-400 border border-slate-700 rounded-lg transition font-semibold">ចាកចេញ</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <div class="space-y-6">
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
+                    <h2 class="text-xl font-bold mb-4 text-emerald-400">🏢 បញ្ជី Group អនុញ្ញាត (Whitelist)</h2>
+                    <p class="text-xs text-slate-400 mb-4">វាយ Command /id ក្នុងគ្រុប ដើម្បីមើលលេខ Group ID</p>
+                    <div class="flex gap-2 mb-6">
+                        <input type="text" id="groupInput" placeholder="ឧទាហរណ៍: -1003926237998" class="flex-1 bg-slate-950 p-3 rounded-xl border border-slate-800 outline-none focus:border-emerald-500">
+                        <button onclick="addG()" class="bg-emerald-600 hover:bg-emerald-500 px-6 font-bold rounded-xl transition">បន្ថែម</button>
+                    </div>
+                    <div id="groupList" class="flex flex-wrap gap-2 max-h-48 overflow-y-auto p-2 bg-slate-950 rounded-xl border border-slate-800"></div>
+                </div>
+
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
+                    <h2 class="text-xl font-bold mb-4 text-blue-400">📝 បញ្ជីពាក្យហាមឃាត់</h2>
+                    <div class="flex gap-2 mb-6">
+                        <input type="text" id="wordInput" placeholder="វាយពាក្យទីនេះ (ឧ. fuck)..." class="flex-1 bg-slate-950 p-3 rounded-xl border border-slate-800 outline-none focus:border-blue-500">
+                        <button onclick="addW()" class="bg-blue-600 hover:bg-blue-500 px-6 font-bold rounded-xl transition">បន្ថែម</button>
+                    </div>
+                    <div id="wordList" class="flex flex-wrap gap-2 max-h-48 overflow-y-auto p-2 bg-slate-950 rounded-xl border border-slate-800"></div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
+                    <h2 class="text-xl font-bold mb-6 text-orange-400 flex items-center gap-2"><span>⚙️</span> ការកំណត់សុវត្ថិភាព</h2>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-4 bg-slate-950 rounded-xl border border-slate-800">
+                            <div><h3 class="font-bold">លុបលីងស្វ័យប្រវត្តិ</h3><p class="text-xs text-slate-400">លុបរាល់សារដែលមានតំណភ្ជាប់ (Links)</p></div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="antiLink" onchange="updateSet('antiLink', this.checked)" class="sr-only peer">
+                                <div class="w-11 h-6 bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                            </label>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-slate-950 rounded-xl border border-slate-800">
+                            <div><h3 class="font-bold text-orange-400">លុបសារវែងខុសប្រក្រតី</h3><p class="text-xs text-slate-400">លុបសារដែលមានអក្សរលើសពី ៥០០តួ</p></div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="antiLongText" onchange="updateSet('antiLongText', this.checked)" class="sr-only peer">
+                                <div class="w-11 h-6 bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                            </label>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-slate-950 rounded-xl border border-slate-800">
+                            <div><h3 class="font-bold text-pink-500">លុបរូបអាសអាភាស (AI)</h3><p class="text-xs text-slate-400">ប្រើ AI ស្កេន និងលុបរូបភាពសិចស៊ី</p></div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="antiNsfw" onchange="updateSet('antiNsfw', this.checked)" class="sr-only peer">
+                                <div class="w-11 h-6 bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-pink-500"></div>
+                            </label>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-slate-950 rounded-xl border border-slate-800">
+                            <div><h3 class="font-bold">Ban ស្វ័យប្រវត្តិ</h3><p class="text-xs text-slate-400">ទាត់គណនីពេលរកឃើញសារ Spam</p></div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="autoBan" onchange="updateSet('autoBan', this.checked)" class="sr-only peer">
+                                <div class="w-11 h-6 bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
+                    <h2 class="text-xl font-bold mb-6 text-purple-400 flex items-center gap-2"><span>💬</span> សារឆ្លើយតប & ប្រព័ន្ធ</h2>
+                    <div class="space-y-6">
+                        <div class="p-4 bg-slate-950 rounded-xl border border-slate-800">
+                            <div class="flex justify-between items-center mb-3">
+                                <div><h3 class="font-bold text-green-400">សារស្វាគមន៍សមាជិកថ្មី</h3><p class="text-xs text-slate-400">ប្រើ {name} សម្រាប់ហៅឈ្មោះ</p></div>
+                                <div class="flex items-center gap-4">
+                                    <button onclick="updateSet('welcomeText', document.getElementById('welcomeText').value, this)" class="text-xs bg-green-600 hover:bg-green-500 px-3 py-1.5 rounded-lg font-bold transition shadow">រក្សាទុក</button>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" id="welcomeToggle" onchange="updateSet('welcomeToggle', this.checked)" class="sr-only peer">
+                                        <div class="w-11 h-6 bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+                                    </label>
+                                </div>
+                            </div>
+                            <textarea id="welcomeText" rows="2" class="w-full bg-slate-900 p-3 rounded-lg border border-slate-700 outline-none focus:border-green-500 text-sm" placeholder="ឧ: សួស្តី {name}, សូមស្វាគមន៍មកកាន់ Group!"></textarea>
+                        </div>
+
+                        <div class="p-4 bg-slate-950 rounded-xl border border-slate-800">
+                            <div class="flex justify-between items-center mb-3">
+                                <div><h3 class="font-bold text-yellow-400">សារព្រមានពេលលុប Spam</h3><p class="text-xs text-slate-400">Bot លុបវិញក្រោយ 10s</p></div>
+                                <div class="flex items-center gap-4">
+                                    <button onclick="updateSet('warningText', document.getElementById('warningText').value, this)" class="text-xs bg-yellow-600 hover:bg-yellow-500 px-3 py-1.5 rounded-lg font-bold transition shadow">រក្សាទុក</button>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" id="warningToggle" onchange="updateSet('warningToggle', this.checked)" class="sr-only peer">
+                                        <div class="w-11 h-6 bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-yellow-500"></div>
+                                    </label>
+                                </div>
+                            </div>
+                            <textarea id="warningText" rows="2" class="w-full bg-slate-900 p-3 rounded-lg border border-slate-700 outline-none focus:border-yellow-500 text-sm" placeholder="ឧ: ⚠️ សារត្រូវបានលុប!"></textarea>
+                        </div>
+
+                        <div class="flex justify-between items-center p-4 bg-slate-950 rounded-xl border border-slate-800">
+                            <div><h3 class="font-bold text-red-400">លុបសារប្រព័ន្ធ</h3><p class="text-xs text-slate-400">លុបសារ "បានចូលគ្រុប/បានចាកចេញ"</p></div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="delSysMsg" onchange="updateSet('deleteServiceMsg', this.checked)" class="sr-only peer">
+                                <div class="w-11 h-6 bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-500"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let token = localStorage.getItem('botToken');
+
+        function toggleUI() {
+            if(token) { document.getElementById('loginPage').classList.add('hidden'); document.getElementById('dashPage').classList.remove('hidden'); loadD(); }
+            else { document.getElementById('loginPage').classList.remove('hidden'); document.getElementById('dashPage').classList.add('hidden'); }
+        }
+
+        async function login() {
+            const res = await fetch('/api/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({user:document.getElementById('user').value, pass:document.getElementById('pass').value}) });
+            const d = await res.json();
+            if(d.success) { token = d.token; localStorage.setItem('botToken', token); toggleUI(); } else alert(d.message);
+        }
+        function logout() { token = null; localStorage.removeItem('botToken'); toggleUI(); }
+
+        async function req(url, body) {
+            const res = await fetch(url, { method: body?'POST':'GET', headers:{'Content-Type':'application/json', 'Authorization':token}, body: body?JSON.stringify(body):null });
+            if(res.status === 401) { logout(); return null; } return res.json();
+        }
+
+        async function loadD() {
+            const c = await req('/api/config');
+            if(!c) return;
+            
+            document.getElementById('antiLink').checked = c.antiLink || false;
+            document.getElementById('antiLongText').checked = c.antiLongText || false;
+            document.getElementById('antiNsfw').checked = c.antiNsfw || false;
+            document.getElementById('autoBan').checked = c.autoBan || false;
+            document.getElementById('welcomeToggle').checked = c.welcomeToggle || false;
+            document.getElementById('warningToggle').checked = c.warningToggle || false;
+            document.getElementById('delSysMsg').checked = c.deleteServiceMsg || false;
+            
+            if(document.activeElement.id !== 'welcomeText') document.getElementById('welcomeText').value = c.welcomeText || '';
+            if(document.activeElement.id !== 'warningText') document.getElementById('warningText').value = c.warningText || '';
+            
+            // រៀបចំបញ្ជីពាក្យហាមឃាត់
+            document.getElementById('wordList').innerHTML = (c.words || []).map(w => `<span class="bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-lg text-sm flex items-center shadow-sm">${w} <button onclick="updateSet('delWord', '${w}')" class="text-red-400 font-bold ml-2 hover:text-red-300">✕</button></span>`).join('');
+            
+            // រៀបចំបញ្ជី Group ID
+            document.getElementById('groupList').innerHTML = (c.allowedGroups || []).map(g => `<span class="bg-emerald-900/30 border border-emerald-800 text-emerald-400 px-3 py-1.5 rounded-lg text-sm flex items-center shadow-sm">${g} <button onclick="updateSet('delGroup', '${g}')" class="text-red-400 font-bold ml-2 hover:text-red-300">✕</button></span>`).join('');
+        }
+
+        async function updateSet(type, value, btn = null) {
+            if((type === 'addWord' || type === 'addGroup') && !value) return;
+            if(btn && btn.tagName === 'BUTTON') btn.innerText = "...";
+
+            const data = await req('/api/config/update', { type, value });
+            if(data) { 
+                if(btn && btn.tagName === 'BUTTON' && !['delWord','addWord','delGroup','addGroup'].includes(type)) setTimeout(() => btn.innerText = "រក្សាទុក", 1000);
+                if(type === 'addWord') document.getElementById('wordInput').value = ''; 
+                if(type === 'addGroup') document.getElementById('groupInput').value = ''; 
+                loadD(); 
+            }
+        }
+        function addW() { updateSet('addWord', document.getElementById('wordInput').value); }
+        function addG() { updateSet('addGroup', document.getElementById('groupInput').value); }
+
+        toggleUI();
+    </script>
+</body>
+</html>
