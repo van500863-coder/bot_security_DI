@@ -33,7 +33,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
             <div class="space-y-6">
                 <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
                     <h2 class="text-xl font-bold mb-4 text-emerald-400">🏢 បញ្ជី Group អនុញ្ញាត (Whitelist)</h2>
@@ -48,7 +47,7 @@
                 <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
                     <h2 class="text-xl font-bold mb-4 text-blue-400">📝 បញ្ជីពាក្យហាមឃាត់</h2>
                     <div class="flex gap-2 mb-6">
-                        <input type="text" id="wordInput" placeholder="វាយពាក្យទីនេះ (ឧ. fuck)..." class="flex-1 bg-slate-950 p-3 rounded-xl border border-slate-800 outline-none focus:border-blue-500">
+                        <input type="text" id="wordInput" placeholder="វាយពាក្យទីនេះ (ឧ. porn)..." class="flex-1 bg-slate-950 p-3 rounded-xl border border-slate-800 outline-none focus:border-blue-500">
                         <button onclick="addW()" class="bg-blue-600 hover:bg-blue-500 px-6 font-bold rounded-xl transition">បន្ថែម</button>
                     </div>
                     <div id="wordList" class="flex flex-wrap gap-2 max-h-48 overflow-y-auto p-2 bg-slate-950 rounded-xl border border-slate-800"></div>
@@ -81,10 +80,24 @@
                             </label>
                         </div>
                         <div class="flex justify-between items-center p-4 bg-slate-950 rounded-xl border border-slate-800">
+                            <div><h3 class="font-bold text-red-500">លុបហ្វាយគ្រោះថ្នាក់ (Fast Block)</h3><p class="text-xs text-slate-400">លុបភ្លាមៗឲ្យតែឃើញកន្ទុយ (.exe, .apk...)</p></div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="antiVirus" onchange="updateSet('antiVirus', this.checked)" class="sr-only peer">
+                                <div class="w-11 h-6 bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
+                            </label>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-slate-950 rounded-xl border border-slate-800">
+                            <div><h3 class="font-bold text-cyan-400">ស្កេនមេរោគ (AI Deep Scan)</h3><p class="text-xs text-slate-400">ពិនិត្យរកមេរោគមុនលុប (ចំណាយ ៥-១៥ វិនាទី)</p></div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="antiVirusDeep" onchange="updateSet('antiVirusDeep', this.checked)" class="sr-only peer">
+                                <div class="w-11 h-6 bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyan-500"></div>
+                            </label>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-slate-950 rounded-xl border border-slate-800">
                             <div><h3 class="font-bold">Ban ស្វ័យប្រវត្តិ</h3><p class="text-xs text-slate-400">ទាត់គណនីពេលរកឃើញសារ Spam</p></div>
                             <label class="relative inline-flex items-center cursor-pointer">
                                 <input type="checkbox" id="autoBan" onchange="updateSet('autoBan', this.checked)" class="sr-only peer">
-                                <div class="w-11 h-6 bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                                <div class="w-11 h-6 bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
                             </label>
                         </div>
                     </div>
@@ -95,7 +108,7 @@
                     <div class="space-y-6">
                         <div class="p-4 bg-slate-950 rounded-xl border border-slate-800">
                             <div class="flex justify-between items-center mb-3">
-                                <div><h3 class="font-bold text-green-400">សារស្វាគមន៍សមាជិកថ្មី</h3><p class="text-xs text-slate-400">ប្រើ {name} សម្រាប់ហៅឈ្មោះ</p></div>
+                                <div><h3 class="font-bold text-green-400">សារស្វាគមន៍</h3><p class="text-xs text-slate-400">ប្រើ {name} សម្រាប់ហៅឈ្មោះ</p></div>
                                 <div class="flex items-center gap-4">
                                     <button onclick="updateSet('welcomeText', document.getElementById('welcomeText').value, this)" class="text-xs bg-green-600 hover:bg-green-500 px-3 py-1.5 rounded-lg font-bold transition shadow">រក្សាទុក</button>
                                     <label class="relative inline-flex items-center cursor-pointer">
@@ -118,7 +131,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <textarea id="warningText" rows="2" class="w-full bg-slate-900 p-3 rounded-lg border border-slate-700 outline-none focus:border-yellow-500 text-sm" placeholder="ឧ: ⚠️ សារត្រូវបានលុប!"></textarea>
+                            <textarea id="warningText" rows="2" class="w-full bg-slate-900 p-3 rounded-lg border border-slate-700 outline-none focus:border-yellow-500 text-sm" placeholder="ឧ: ⚠️ សារត្រូវបានលុបដោយសារបំពានច្បាប់!"></textarea>
                         </div>
 
                         <div class="flex justify-between items-center p-4 bg-slate-950 rounded-xl border border-slate-800">
@@ -161,6 +174,8 @@
             document.getElementById('antiLink').checked = c.antiLink || false;
             document.getElementById('antiLongText').checked = c.antiLongText || false;
             document.getElementById('antiNsfw').checked = c.antiNsfw || false;
+            document.getElementById('antiVirus').checked = c.antiVirus || false;
+            document.getElementById('antiVirusDeep').checked = c.antiVirusDeep || false;
             document.getElementById('autoBan').checked = c.autoBan || false;
             document.getElementById('welcomeToggle').checked = c.welcomeToggle || false;
             document.getElementById('warningToggle').checked = c.warningToggle || false;
@@ -169,10 +184,7 @@
             if(document.activeElement.id !== 'welcomeText') document.getElementById('welcomeText').value = c.welcomeText || '';
             if(document.activeElement.id !== 'warningText') document.getElementById('warningText').value = c.warningText || '';
             
-            // រៀបចំបញ្ជីពាក្យហាមឃាត់
             document.getElementById('wordList').innerHTML = (c.words || []).map(w => `<span class="bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-lg text-sm flex items-center shadow-sm">${w} <button onclick="updateSet('delWord', '${w}')" class="text-red-400 font-bold ml-2 hover:text-red-300">✕</button></span>`).join('');
-            
-            // រៀបចំបញ្ជី Group ID
             document.getElementById('groupList').innerHTML = (c.allowedGroups || []).map(g => `<span class="bg-emerald-900/30 border border-emerald-800 text-emerald-400 px-3 py-1.5 rounded-lg text-sm flex items-center shadow-sm">${g} <button onclick="updateSet('delGroup', '${g}')" class="text-red-400 font-bold ml-2 hover:text-red-300">✕</button></span>`).join('');
         }
 
